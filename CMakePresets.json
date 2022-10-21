@@ -1,0 +1,102 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 17,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base-dev",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "hidden": true,
+            "cacheVariables": {
+                "CPM_SOURCE_CACHE": "${sourceDir}/.cpm"
+            }
+        },
+        {
+            "name": "base-dev-ninja",
+            "hidden": true,
+            "inherits": "base-dev",
+            "generator": "Ninja"
+        },
+        {
+            "name": "ninja-debug",
+            "inherits": "base-dev-ninja",
+            "displayName": "Debug Ninja",
+            "description": "Build in Debug with Ninja generator",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "ninja-relwithdebinfo",
+            "inherits": "base-dev-ninja",
+            "displayName": "RelWithDebInfo Ninja",
+            "description": "Build in RelWithDebInfo with Ninja generator",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "ninja-release",
+            "inherits": "base-dev-ninja",
+            "displayName": "Release Ninja",
+            "description": "Build in Release with Ninja generator",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "ninja-multi",
+            "inherits": "base-dev",
+            "displayName": "Ninja Multi-Config",
+            "description": "Default build using Ninja Multi-Config generator",
+            "generator": "Ninja Multi-Config"
+        },
+        {
+            "name": "msvc-17",
+            "inherits": "base-dev",
+            "displayName": "Visual Studio 2022",
+            "generator": "Visual Studio 17 2022",
+            "description": "Build Visual Studio 17 2022 generator",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "xcode",
+            "inherits": "base-dev",
+            "displayName": "Xcode",
+            "description": "Build Xcode project",
+            "generator": "Xcode",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "base-dev",
+            "configurePreset": "base-dev"
+        }
+    ],
+    "testPresets": [
+        {
+            "name": "base-dev",
+            "configurePreset": "base-dev",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        }
+    ]
+}

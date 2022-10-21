@@ -1,0 +1,18 @@
+name: 🍱 Create diagram
+on:
+  workflow_dispatch: {}
+  schedule:
+  - cron: "0 0 * * 0"
+
+jobs:
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@8230315d06ad95c617244d2f265d237a1682d445
+      - name: Update diagram
+        uses: githubocto/repo-visualizer@c2ef9142327bf191ca792c45832d82f90983eae1
+        with:
+          excluded_paths: "ignore,.github,docs/assets/repo-diagram.svg"
+          output_file: docs/assets/repo-diagram.svg
+          commit_message: 📝 Updating repository diagram [skip ci]
