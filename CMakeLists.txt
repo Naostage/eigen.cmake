@@ -94,8 +94,7 @@ set(EIGEN_TAG
 
 # First try to find eigen to be compatible with opencv finding it
 if(NOT TARGET Eigen3::Eigen)
-  find_package(Eigen3 QUIET)
-  message(STATUS "Eigen3_FOUND ${EIGEN_INCLUDE_DIR}")
+  find_package(Eigen3 NO_MODULE)
   # todo : mark advance and don't do it again
 endif()
 

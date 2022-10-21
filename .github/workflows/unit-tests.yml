@@ -1,0 +1,95 @@
+name: ✅ Unit Tests
+
+on: [push]
+
+permissions: read-all
+
+jobs:
+  cmake:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
+        build-type: [Release]
+    steps:
+      -
+        uses: actions/checkout@v3
+      -
+        name: 🔧 eigen.cmake
+        run: |
+          cmake -E make_directory build
+          cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
+                -DCMAKE_INSTALL_PREFIX=build/output             \
+                -DEIGEN_ENABLE_EXAMPLES=ON                      \
+                -B build -S .
+        shell: bash
+      -
+        name: 🔨 eigen_example
+        run: cmake --build build --config "${{ matrix.build-type }}" --target "eigen_example" -j
+      -
+        name: 📦️ install
+        run: cmake --build build --config "${{ matrix.build-type }}" --target install
+      -
+        name: 🔧 eigen.cmake install
+        run: |
+          cmake -E make_directory build-install
+          cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
+                -DCMAKE_PREFIX_PATH=$(pwd)/build/output        \
+                -B build-install -S ./examples/install
+        shell: bash
+      -
+        name: 🔨 install example
+        run: cmake --build build-install --config "${{ matrix.build-type }}" --target "eigen_example" -j
+
+  find_package:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
+        build-type: [Release]
+    steps:
+      -
+        run: git clone https://gitlab.com/libeigen/eigen --branch 3.4.0 --single-branch eigen-gl
+      -
+        name: 🔧 eigen
+        run: |
+          cmake -E make_directory eigen-gl/build
+          cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
+                -DCMAKE_INSTALL_PREFIX=eigen-gl/build/output    \
+                -DINCLUDE_INSTALL_PREFIX=include                \
+                -B eigen-gl/build -S eigen-gl
+        shell: bash
+      -
+        name: 📦️ install eigen
+        run: cmake --build eigen-gl/build --config "${{ matrix.build-type }}" --target install
+      -
+        uses: actions/checkout@v3
+      -
+        name: 🔧 eigen.cmake
+        run: |
+          cmake -E make_directory build
+          cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
+                -DCMAKE_PREFIX_PATH=eigen-gl/build/output       \
+                -DCMAKE_INSTALL_PREFIX=build/output             \
+                -DEIGEN_ENABLE_EXAMPLES=ON                      \
+                -B build -S .
+        shell: bash
+      -
+        name: 🔨 eigen_example
+        run: cmake --build build --config "${{ matrix.build-type }}" --target "eigen_example" -j
+      -
+        name: 📦️ install
+        run: cmake --build build --config "${{ matrix.build-type }}" --target install
+      -
+        name: 🔧 eigen.cmake install
+        run: |
+          cmake -E make_directory build-install
+          cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
+                -DCMAKE_PREFIX_PATH=$(pwd)/build/output        \
+                -B build-install -S ./examples/install
+        shell: bash
+      -
+        name: 🔨 install example
+        run: cmake --build build-install --config "${{ matrix.build-type }}" --target "eigen_example" -j
