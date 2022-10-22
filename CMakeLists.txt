@@ -43,6 +43,11 @@ set(EIGEN_VERBOSE
     CACHE BOOL "Log Verbose configuration"
 )
 
+set(EIGEN_ENABLE_FIND_PACKAGE
+    OFF
+    CACHE BOOL "Use find_package to look for eigen first"
+)
+
 set(EIGEN_ENABLE_EXAMPLES
     ${EIGEN_MAIN_PROJECT}
     CACHE BOOL "Create an example target."
@@ -71,6 +76,7 @@ if(EIGEN_VERBOSE)
   message(STATUS "EIGEN_VERSION                : ${EIGEN_VERSION}")
   message(STATUS "EIGEN_VERSION_TAG_HEX        : ${EIGEN_VERSION_TAG_HEX}")
   message(STATUS "EIGEN_ENABLE_EXAMPLES        : ${EIGEN_ENABLE_EXAMPLES}")
+  message(STATUS "EIGEN_ENABLE_FIND_PACKAGE    : ${EIGEN_ENABLE_FIND_PACKAGE}")
   message(STATUS "EIGEN_ENABLE_INSTALL         : ${EIGEN_ENABLE_INSTALL}")
   message(STATUS "------ ${EIGEN_TARGET} End Configuration ------")
 endif()
@@ -93,7 +99,7 @@ set(EIGEN_TAG
 )
 
 # First try to find eigen to be compatible with opencv finding it
-if(NOT TARGET Eigen3::Eigen)
+if(NOT TARGET Eigen3::Eigen AND EIGEN_ENABLE_FIND_PACKAGE)
   if(NOT _EIGEN_FIND_PACKAGE_RUNNED_ONCE)
     find_package(Eigen3 ${EIGEN_TAG} QUIET NO_MODULE)
 

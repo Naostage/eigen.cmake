@@ -22,6 +22,7 @@ jobs:
           cmake -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}"   \
                 -DCMAKE_INSTALL_PREFIX=build/output             \
                 -DEIGEN_ENABLE_EXAMPLES=ON                      \
+                -DEIGEN_ENABLE_FIND_PACKAGE=ON                  \
                 -B build -S .
         shell: bash
       -
@@ -74,6 +75,7 @@ jobs:
                 -DCMAKE_PREFIX_PATH=eigen-gl/build/output       \
                 -DCMAKE_INSTALL_PREFIX=build/output             \
                 -DEIGEN_ENABLE_EXAMPLES=ON                      \
+                -DEIGEN_ENABLE_FIND_PACKAGE=ON                  \
                 -B build -S .
         shell: bash
       -
