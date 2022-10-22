@@ -24,8 +24,9 @@ cd eigen.cmake
 # 🔧 Configure project
 cmake -E make_directory build
 cmake \
-  -DEIGENCMAKE_ENABLE_EXAMPLES=ON `# 🚀 Enable Examples (eigen.cmake_example)` \
-  -DEIGENCMAKE_ENABLE_INSTALL=ON `# 📦️ Enable Install` \
+  -DEIGEN_ENABLE_EXAMPLES=ON `# 🚀 Enable Examples (eigen_example)` \
+  -DEIGEN_ENABLE_INSTALL=ON `# 📦️ Enable Install` \
+  -DEIGEN_ENABLE_FIND_PACKAGE=ON `# Enable find_package before cpm` \
   -B build -S .
 
 # 🔨 Build:
@@ -38,6 +39,8 @@ cmake --build . --target install
 ### Extra flags
 
 * `CPM_SOURCE_CACHE`: Share CPM download with multiple build. [More info.](https://github.com/cpm-cmake/CPM.cmake#CPM_SOURCE_CACHE)
+* `CPM_USE_LOCAL_PACKAGES`: Force `CPMAddPackage` to first try to `find_package`
+* `EIGEN_ENABLE_FIND_PACKAGE`: Enable `find_package`  before `CPMAddPackage`. **Off By Default**
 * `CMAKE_INSTALL_PREFIX`: Select where installation should happen. [More info](https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html)
 
 ### Use in your project
