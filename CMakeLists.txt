@@ -43,20 +43,9 @@ set(EIGEN_VERBOSE
     CACHE BOOL "Log Verbose configuration"
 )
 
-set(EIGEN_ENABLE_FIND_PACKAGE
-    OFF
-    CACHE BOOL "Use find_package to look for eigen first"
-)
-
-set(EIGEN_ENABLE_EXAMPLES
-    ${EIGEN_MAIN_PROJECT}
-    CACHE BOOL "Create an example target."
-)
-
-set(EIGEN_ENABLE_INSTALL
-    ${EIGEN_MAIN_PROJECT}
-    CACHE BOOL "Create an install target."
-)
+option(EIGEN_ENABLE_FIND_PACKAGE "Use find_package to look for eigen first" OFF)
+option(EIGEN_ENABLE_EXAMPLES "Create an example target." ${EIGEN_MAIN_PROJECT})
+option(EIGEN_ENABLE_INSTALL "Create an install target." ${EIGEN_MAIN_PROJECT})
 
 # ───── 🚀 Project ─────
 
