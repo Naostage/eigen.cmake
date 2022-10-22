@@ -94,7 +94,18 @@ set(EIGEN_TAG
 
 # First try to find eigen to be compatible with opencv finding it
 if(NOT TARGET Eigen3::Eigen)
-  find_package(Eigen3 QUIET NO_MODULE)
+  if(NOT _EIGEN_FIND_PACKAGE_RUNNED_ONCE)
+    find_package(Eigen3 ${EIGEN_TAG} QUIET NO_MODULE)
+
+    if(NOT Eigen3_FOUND)
+      # find_package takes quite some times, let's only try once and ignore it on next run
+      set(_EIGEN_FIND_PACKAGE_RUNNED_ONCE
+          TRUE
+          CACHE BOOL "Fake file hierarchy have been copied from downloaded sources" FORCE
+      )
+      mark_as_advanced(_EIGEN_FIND_PACKAGE_RUNNED_ONCE)
+    endif()
+  endif()
   # todo : mark advance and don't do it again
 endif()
 
