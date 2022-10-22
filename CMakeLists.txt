@@ -113,37 +113,49 @@ if(NOT TARGET Eigen3::Eigen)
       CACHE BOOL "eigen fetch from github" FORCE
   )
 
-  # todo mark advance, do only once
-  file(GLOB_RECURSE EIGEN_SOURCES "${eigen_SOURCE_DIR}/Eigen/*"
-       "${eigen_SOURCE_DIR}/unsupported/Eigen/*"
-  )
-  list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
-  list(REMOVE_ITEM EIGEN_SOURCES
-       "${eigen_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
-  )
-  list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
+  # Copying all files can take some hundred of milliseconds, so let's only do that once.
+  set(_EIGEN_FAKE_FILE_COPIED _EIGEN_FAKE_FILE_COPIED_${EIGEN_TAG})
+  if(NOT ${_EIGEN_FAKE_FILE_COPIED})
 
-  # Copy all file to build folder
-  foreach(eigen_source_file ${EIGEN_SOURCES})
-
-    file(RELATIVE_PATH relative_path ${eigen_SOURCE_DIR} ${eigen_source_file})
-    get_filename_component(file_name ${eigen_source_file} NAME)
-    string(REPLACE ${file_name} "" relative_dir ${relative_path})
-    file(
-      COPY ${eigen_source_file}
-      DESTINATION ${eigen_BINARY_DIR}/include/${relative_dir}
-      FILE_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE GROUP_EXECUTE
-      DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE
-                            GROUP_EXECUTE
+    set(${_EIGEN_FAKE_FILE_COPIED}
+        TRUE
+        CACHE BOOL "Fake file hierarchy have been copied from downloaded sources" FORCE
     )
+    mark_as_advanced(${_EIGEN_FAKE_FILE_COPIED})
+    # todo mark advance, do only once
+    file(GLOB_RECURSE EIGEN_SOURCES "${eigen_SOURCE_DIR}/Eigen/*"
+         "${eigen_SOURCE_DIR}/unsupported/Eigen/*"
+    )
+    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
+    list(REMOVE_ITEM EIGEN_SOURCES
+         "${eigen_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
+    )
+    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
 
-  endforeach()
+    # Copy all file to build folder
+    foreach(eigen_source_file ${EIGEN_SOURCES})
 
-  file(GLOB_RECURSE EIGEN_SOURCES "${eigen_BINARY_DIR}/include/Eigen/*")
+      file(RELATIVE_PATH relative_path ${eigen_SOURCE_DIR} ${eigen_source_file})
+      get_filename_component(file_name ${eigen_source_file} NAME)
+      string(REPLACE ${file_name} "" relative_dir ${relative_path})
+      file(
+        COPY ${eigen_source_file}
+        DESTINATION ${eigen_BINARY_DIR}/include/${relative_dir}
+        FILE_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE GROUP_EXECUTE
+        DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE
+                              GROUP_EXECUTE
+      )
+
+    endforeach()
+  endif()
 
   add_library(Eigen INTERFACE)
 
-  # target_sources(eigen INTERFACE ${EIGEN_SOURCES}) # Not working with old version of cmake
+  # ~~~
+  # Not working with old version of cmake :
+  # file(GLOB_RECURSE EIGEN_SOURCES "${eigen_BINARY_DIR}/include/Eigen/*") target_sources(eigen
+  # INTERFACE ${EIGEN_SOURCES})
+  # ~~~
 
   target_include_directories(
     Eigen INTERFACE $<BUILD_INTERFACE:${eigen_BINARY_DIR}/include>
@@ -162,6 +174,7 @@ if(NOT TARGET Eigen3::Eigen)
   )
 
   add_library(eigen ALIAS Eigen)
+  # Create a real library, and not an alias to be able to install it, and use find_package(Eigen3)
   add_library(Eigen3 INTERFACE)
   target_link_libraries(Eigen3 INTERFACE Eigen)
   # Official alias used by eigen doc
@@ -225,6 +238,12 @@ if(EIGEN_ENABLE_INSTALL AND EIGEN_CAN_INSTALL)
     COMPATIBILITY SameMinorVersion
   )
 
+  # ~~~
+  # This is a hack, because we want to be able to do
+  # find_package(Eigen3) like in official documentation
+  # This depends on Eigen package,
+  # so in the end `Eigen3::Eigen` target will be defined
+  # ~~~
   packageProject(
     NAME Eigen3
     VERSION ${EIGEN_VERSION_NUMBER}
