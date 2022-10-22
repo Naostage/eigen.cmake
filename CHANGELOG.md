@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.0.1"></a>
+## 1.0.1 (2022-10-22)
+
+### Changed
+
+- ♻️ use option instead of set in cache for boolean options https://github.com/cpm-cmake/CPM.cmake/issues/290 [[20d6909](https://github.com/Naostage/eigen.cmake/commit/20d69093e327ce621b705d7d0cc2f811c5a3247f)]
+
+### Miscellaneous
+
+- 📝 Update Changelog [skip ci] ([#1](https://github.com/Naostage/eigen.cmake/issues/1)) [[112f213](https://github.com/Naostage/eigen.cmake/commit/112f2134e7d26d99445d603a17163284d44e6bb9)]
+- 📝 Updating repository diagram [skip ci] [[8c1a3c5](https://github.com/Naostage/eigen.cmake/commit/8c1a3c519acab51d413673af7de848b1a7673c93)]
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2022-10-22)
 
