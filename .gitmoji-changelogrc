@@ -1,7 +1,7 @@
 {
     "project": {
-        "name": "naorpcpp",
-        "description": "A native C++ implementation for naorpc",
+        "name": "eigen.cmake",
+        "description": "Eigen cmake library wrapper, because official cmake is 💩",
         "version": "0.0.0"
     }
 }
