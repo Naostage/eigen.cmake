@@ -13,6 +13,7 @@ jobs:
       - name: Update diagram
         uses: githubocto/repo-visualizer@c2ef9142327bf191ca792c45832d82f90983eae1
         with:
-          excluded_paths: "ignore,.github,docs/assets/repo-diagram.svg"
+          excluded_globs: "docs;**/*.{png,svg,ico,md}"
+          excluded_paths: "ignore,.github,.vscode,.clang-format,.cmake-format,.editorconfig,.gitattributes,.gitignore,.gitmoji-changelogrc,.pylinrc"
           output_file: docs/assets/repo-diagram.svg
           commit_message: 📝 Updating repository diagram [skip ci]
