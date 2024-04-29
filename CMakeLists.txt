@@ -108,11 +108,16 @@ if(NOT TARGET Eigen3::Eigen)
   set(EIGEN_CAN_INSTALL TRUE)
   include(cmake/CPM.cmake)
   CPMAddPackage(
-    NAME eigen
+    NAME Eigen3
     GIT_REPOSITORY ${EIGEN_REPOSITORY}
     GIT_TAG ${EIGEN_TAG}
     DOWNLOAD_ONLY YES
   )
+endif()
+
+# Eigen3_ADDED is defined by CPM if the dependency has not been added before
+if(Eigen3_ADDED)
+  message(STATUS "Eigen3 added from source, not found with find_package")
 
   set(Eigen3_FOUND
       TRUE
@@ -129,24 +134,24 @@ if(NOT TARGET Eigen3::Eigen)
     )
     mark_as_advanced(${_EIGEN_FAKE_FILE_COPIED})
     # todo mark advance, do only once
-    file(GLOB_RECURSE EIGEN_SOURCES "${eigen_SOURCE_DIR}/Eigen/*"
-         "${eigen_SOURCE_DIR}/unsupported/Eigen/*"
+    file(GLOB_RECURSE EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/Eigen/*"
+         "${Eigen3_SOURCE_DIR}/unsupported/Eigen/*"
     )
-    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
+    list(REMOVE_ITEM EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
     list(REMOVE_ITEM EIGEN_SOURCES
-         "${eigen_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
+         "${Eigen3_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
     )
-    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
+    list(REMOVE_ITEM EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
 
     # Copy all file to build folder
     foreach(eigen_source_file ${EIGEN_SOURCES})
 
-      file(RELATIVE_PATH relative_path ${eigen_SOURCE_DIR} ${eigen_source_file})
+      file(RELATIVE_PATH relative_path ${Eigen3_SOURCE_DIR} ${eigen_source_file})
       get_filename_component(file_name ${eigen_source_file} NAME)
       string(REPLACE ${file_name} "" relative_dir ${relative_path})
       file(
         COPY ${eigen_source_file}
-        DESTINATION ${eigen_BINARY_DIR}/include/${relative_dir}
+        DESTINATION ${Eigen3_BINARY_DIR}/include/${relative_dir}
         FILE_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE GROUP_EXECUTE
         DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE
                               GROUP_EXECUTE
@@ -159,23 +164,23 @@ if(NOT TARGET Eigen3::Eigen)
 
   # ~~~
   # Not working with old version of cmake :
-  # file(GLOB_RECURSE EIGEN_SOURCES "${eigen_BINARY_DIR}/include/Eigen/*") target_sources(eigen
+  # file(GLOB_RECURSE EIGEN_SOURCES "${Eigen3_BINARY_DIR}/include/Eigen/*") target_sources(eigen
   # INTERFACE ${EIGEN_SOURCES})
   # ~~~
 
   target_include_directories(
-    Eigen INTERFACE $<BUILD_INTERFACE:${eigen_BINARY_DIR}/include>
+    Eigen INTERFACE $<BUILD_INTERFACE:${Eigen3_BINARY_DIR}/include>
                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
   target_compile_definitions(Eigen INTERFACE "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
 
   # Force opencv to use our eigen to avoid any problems
   set(EIGEN3_INCLUDE_DIR
-      ${eigen_BINARY_DIR}
+      ${Eigen3_BINARY_DIR}
       CACHE STRING "eigen include dir"
   )
   set(EIGEN_INCLUDE_DIR
-      ${eigen_BINARY_DIR}
+      ${Eigen3_BINARY_DIR}
       CACHE STRING "eigen include dir"
   )
 
@@ -188,7 +193,7 @@ if(NOT TARGET Eigen3::Eigen)
   add_library(Eigen::Eigen ALIAS Eigen)
 
   # automatically parse the version number
-  file(READ "${eigen_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
+  file(READ "${Eigen3_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
   string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match
                "${_eigen_version_header}"
   )
@@ -238,26 +243,28 @@ if(EIGEN_ENABLE_INSTALL AND EIGEN_CAN_INSTALL)
     NAME Eigen
     VERSION ${EIGEN_VERSION_NUMBER}
     BINARY_DIR ${PROJECT_BINARY_DIR}
-    INCLUDE_DIR ${eigen_BINARY_DIR}/include
+    INCLUDE_DIR ${Eigen3_BINARY_DIR}/include
     INCLUDE_DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     NAMESPACE Eigen3
     COMPATIBILITY SameMinorVersion
   )
 
-  # ~~~
-  # This is a hack, because we want to be able to do
-  # find_package(Eigen3) like in official documentation
-  # This depends on Eigen package,
-  # so in the end `Eigen3::Eigen` target will be defined
-  # ~~~
-  packageProject(
-    NAME Eigen3
-    VERSION ${EIGEN_VERSION_NUMBER}
-    BINARY_DIR ${PROJECT_BINARY_DIR}
-    COMPATIBILITY SameMinorVersion
-    NAMESPACE Eigen3
-    DEPENDENCIES "Eigen"
-  )
+  if(Eigen3_ADDED)
+    # ~~~
+    # This is a hack, because we want to be able to do
+    # find_package(Eigen3) like in official documentation
+    # This depends on Eigen package,
+    # so in the end `Eigen3::Eigen` target will be defined
+    # ~~~
+    packageProject(
+      NAME Eigen3
+      VERSION ${EIGEN_VERSION_NUMBER}
+      BINARY_DIR ${PROJECT_BINARY_DIR}
+      COMPATIBILITY SameMinorVersion
+      NAMESPACE Eigen3
+      DEPENDENCIES "Eigen"
+    )
+  endif()
 
 endif()
 
