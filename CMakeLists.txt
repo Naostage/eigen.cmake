@@ -193,7 +193,7 @@ if(Eigen3_ADDED)
   add_library(Eigen::Eigen ALIAS Eigen)
 
   # automatically parse the version number
-  file(READ "${eigen_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
+  file(READ "${Eigen3_SOURCE_DIR}/Eigen/src/Core/util/Macros.h" _eigen_version_header)
   string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen_world_version_match
                "${_eigen_version_header}"
   )
