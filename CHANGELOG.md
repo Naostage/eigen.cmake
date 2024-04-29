@@ -1,5 +1,29 @@
 # Changelog
 
+<a name="1.0.2"></a>
+## 1.0.2 (2024-04-29)
+
+### Changed
+
+- 🔧 Update .gitmoji-changelogrc with correct &#x60;name&#x60; &amp; &#x60;description&#x60; [[206fa5e](https://github.com/Naostage/eigen.cmake/commit/206fa5e77d9319c0c176b09696a7e8c694d67487)]
+
+### Fixed
+
+- 🐛 Use correct &#x60;Eigen3&#x60; CPM name so &#x60;CPM_USE_LOCAL_PACKAGE&#x60; can find eigen ([#4](https://github.com/Naostage/eigen.cmake/issues/4)) [[1db37c1](https://github.com/Naostage/eigen.cmake/commit/1db37c1ab82fdef379f662217cd852ad8ac4fd9b)]
+
+### Miscellaneous
+
+-  👷 only run repo-diagram by hand [[ab34ad3](https://github.com/Naostage/eigen.cmake/commit/ab34ad302024895a0752b689af820d755756a6a5)]
+- 📝 Updating repository diagram [skip ci] [[245cbb9](https://github.com/Naostage/eigen.cmake/commit/245cbb937b98ec81bf04f1fe3d9df20f927536ac)]
+- 📝 Updating repository diagram [skip ci] [[0584b3d](https://github.com/Naostage/eigen.cmake/commit/0584b3d0ebce34f0d365f266a4d87d042dbdf97d)]
+-  👷 Don&#x27;t index docs folder in repo-diagram [[cf31482](https://github.com/Naostage/eigen.cmake/commit/cf31482a3ad75b487a6809718814162e78a1d30b)]
+- 📝 Updating repository diagram [skip ci] [[adbdb7a](https://github.com/Naostage/eigen.cmake/commit/adbdb7af62c1c8d6cb012199c18fe06444fec6cd)]
+- 📝 Updating repository diagram [skip ci] [[dcf7791](https://github.com/Naostage/eigen.cmake/commit/dcf77913f4120eb7fc61b20b35210dc82b4759d8)]
+- 📝 Updating repository diagram [skip ci] [[d96305c](https://github.com/Naostage/eigen.cmake/commit/d96305c55f0e0cf2bd3916c9d7f853b7f3049566)]
+- 📝 Updating repository diagram [skip ci] [[98dd97e](https://github.com/Naostage/eigen.cmake/commit/98dd97e1eeb25c6aad4b955835bff67bbfe8d1ff)]
+- 📝 Update Changelog [skip ci] ([#3](https://github.com/Naostage/eigen.cmake/issues/3)) [[2a73f82](https://github.com/Naostage/eigen.cmake/commit/2a73f82f2c551950ec945a1b4760f85e4a488eb8)]
+
+
 <a name="1.0.1"></a>
 ## 1.0.1 (2022-10-22)
 
