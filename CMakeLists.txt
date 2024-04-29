@@ -113,6 +113,10 @@ if(NOT TARGET Eigen3::Eigen)
     GIT_TAG ${EIGEN_TAG}
     DOWNLOAD_ONLY YES
   )
+endif()
+
+# Eigen3_ADDED is defined by CPM if the dependency has not been added before
+if(Eigen3_ADDED)
 
   set(Eigen3_FOUND
       TRUE
