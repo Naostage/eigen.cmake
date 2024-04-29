@@ -151,7 +151,7 @@ if(Eigen3_ADDED)
       string(REPLACE ${file_name} "" relative_dir ${relative_path})
       file(
         COPY ${eigen_source_file}
-        DESTINATION ${eigen_BINARY_DIR}/include/${relative_dir}
+        DESTINATION ${Eigen3_BINARY_DIR}/include/${relative_dir}
         FILE_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE GROUP_EXECUTE
         DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE OWNER_EXECUTE
                               GROUP_EXECUTE
@@ -164,23 +164,23 @@ if(Eigen3_ADDED)
 
   # ~~~
   # Not working with old version of cmake :
-  # file(GLOB_RECURSE EIGEN_SOURCES "${eigen_BINARY_DIR}/include/Eigen/*") target_sources(eigen
+  # file(GLOB_RECURSE EIGEN_SOURCES "${Eigen3_BINARY_DIR}/include/Eigen/*") target_sources(eigen
   # INTERFACE ${EIGEN_SOURCES})
   # ~~~
 
   target_include_directories(
-    Eigen INTERFACE $<BUILD_INTERFACE:${eigen_BINARY_DIR}/include>
+    Eigen INTERFACE $<BUILD_INTERFACE:${Eigen3_BINARY_DIR}/include>
                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
   target_compile_definitions(Eigen INTERFACE "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS")
 
   # Force opencv to use our eigen to avoid any problems
   set(EIGEN3_INCLUDE_DIR
-      ${eigen_BINARY_DIR}
+      ${Eigen3_BINARY_DIR}
       CACHE STRING "eigen include dir"
   )
   set(EIGEN_INCLUDE_DIR
-      ${eigen_BINARY_DIR}
+      ${Eigen3_BINARY_DIR}
       CACHE STRING "eigen include dir"
   )
 
@@ -243,7 +243,7 @@ if(EIGEN_ENABLE_INSTALL AND EIGEN_CAN_INSTALL)
     NAME Eigen
     VERSION ${EIGEN_VERSION_NUMBER}
     BINARY_DIR ${PROJECT_BINARY_DIR}
-    INCLUDE_DIR ${eigen_BINARY_DIR}/include
+    INCLUDE_DIR ${Eigen3_BINARY_DIR}/include
     INCLUDE_DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     NAMESPACE Eigen3
     COMPATIBILITY SameMinorVersion
