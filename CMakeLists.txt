@@ -108,7 +108,7 @@ if(NOT TARGET Eigen3::Eigen)
   set(EIGEN_CAN_INSTALL TRUE)
   include(cmake/CPM.cmake)
   CPMAddPackage(
-    NAME eigen
+    NAME Eigen3
     GIT_REPOSITORY ${EIGEN_REPOSITORY}
     GIT_TAG ${EIGEN_TAG}
     DOWNLOAD_ONLY YES
