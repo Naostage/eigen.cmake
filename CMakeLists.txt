@@ -134,19 +134,19 @@ if(Eigen3_ADDED)
     )
     mark_as_advanced(${_EIGEN_FAKE_FILE_COPIED})
     # todo mark advance, do only once
-    file(GLOB_RECURSE EIGEN_SOURCES "${eigen_SOURCE_DIR}/Eigen/*"
-         "${eigen_SOURCE_DIR}/unsupported/Eigen/*"
+    file(GLOB_RECURSE EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/Eigen/*"
+         "${Eigen3_SOURCE_DIR}/unsupported/Eigen/*"
     )
-    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
+    list(REMOVE_ITEM EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/unsupported/Eigen/CMakeLists.txt")
     list(REMOVE_ITEM EIGEN_SOURCES
-         "${eigen_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
+         "${Eigen3_SOURCE_DIR}/unsupported/Eigen/src/EulerAngles/CMakeLists.txt"
     )
-    list(REMOVE_ITEM EIGEN_SOURCES "${eigen_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
+    list(REMOVE_ITEM EIGEN_SOURCES "${Eigen3_SOURCE_DIR}/unsupported/Eigen/CXX11/CMakeLists.txt")
 
     # Copy all file to build folder
     foreach(eigen_source_file ${EIGEN_SOURCES})
 
-      file(RELATIVE_PATH relative_path ${eigen_SOURCE_DIR} ${eigen_source_file})
+      file(RELATIVE_PATH relative_path ${Eigen3_SOURCE_DIR} ${eigen_source_file})
       get_filename_component(file_name ${eigen_source_file} NAME)
       string(REPLACE ${file_name} "" relative_dir ${relative_path})
       file(
