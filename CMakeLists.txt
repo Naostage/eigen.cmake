@@ -117,6 +117,7 @@ endif()
 
 # Eigen3_ADDED is defined by CPM if the dependency has not been added before
 if(Eigen3_ADDED)
+  message(STATUS "Eigen3 added from source, not found with find_package")
 
   set(Eigen3_FOUND
       TRUE
@@ -248,20 +249,22 @@ if(EIGEN_ENABLE_INSTALL AND EIGEN_CAN_INSTALL)
     COMPATIBILITY SameMinorVersion
   )
 
-  # ~~~
-  # This is a hack, because we want to be able to do
-  # find_package(Eigen3) like in official documentation
-  # This depends on Eigen package,
-  # so in the end `Eigen3::Eigen` target will be defined
-  # ~~~
-  packageProject(
-    NAME Eigen3
-    VERSION ${EIGEN_VERSION_NUMBER}
-    BINARY_DIR ${PROJECT_BINARY_DIR}
-    COMPATIBILITY SameMinorVersion
-    NAMESPACE Eigen3
-    DEPENDENCIES "Eigen"
-  )
+  if(Eigen3_ADDED)
+    # ~~~
+    # This is a hack, because we want to be able to do
+    # find_package(Eigen3) like in official documentation
+    # This depends on Eigen package,
+    # so in the end `Eigen3::Eigen` target will be defined
+    # ~~~
+    packageProject(
+      NAME Eigen3
+      VERSION ${EIGEN_VERSION_NUMBER}
+      BINARY_DIR ${PROJECT_BINARY_DIR}
+      COMPATIBILITY SameMinorVersion
+      NAMESPACE Eigen3
+      DEPENDENCIES "Eigen"
+    )
+  endif()
 
 endif()
 
