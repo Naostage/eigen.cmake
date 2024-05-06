@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.0.3"></a>
+## 1.0.3 (2024-05-06)
+
+### Changed
+
+- ♻️ Add world permission on Eigen copied file ([#6](https://github.com/Naostage/eigen.cmake/issues/6)) [[5a17178](https://github.com/Naostage/eigen.cmake/commit/5a1717886e189ace438f022b7d25c654f55870a6)]
+
+### Miscellaneous
+
+- 📝 Update Changelog [skip ci] ([#5](https://github.com/Naostage/eigen.cmake/issues/5)) [[abf25b4](https://github.com/Naostage/eigen.cmake/commit/abf25b435a57fad9ff010e42b6f9a488977cf8de)]
+
+
 <a name="1.0.2"></a>
 ## 1.0.2 (2024-04-29)
 
