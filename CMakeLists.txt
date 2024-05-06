@@ -152,8 +152,6 @@ if(Eigen3_ADDED)
       file(
         COPY ${eigen_source_file}
         DESTINATION ${Eigen3_BINARY_DIR}/include/${relative_dir}
-        FILE_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE
-        DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ OWNER_WRITE GROUP_WRITE
       )
 
     endforeach()
