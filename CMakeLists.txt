@@ -148,10 +148,11 @@ if(Eigen3_ADDED)
 
       file(RELATIVE_PATH relative_path ${Eigen3_SOURCE_DIR} ${eigen_source_file})
       get_filename_component(file_name ${eigen_source_file} NAME)
-      string(REPLACE ${file_name} "" relative_dir ${relative_path})
+      file(RELATIVE_PATH relative_path ${Eigen3_SOURCE_DIR} ${eigen_source_file})
+      get_filename_component(dest_dir ${Eigen3_BINARY_DIR}/include/${relative_path} DIRECTORY)
       file(
         COPY ${eigen_source_file}
-        DESTINATION ${Eigen3_BINARY_DIR}/include/${relative_dir}
+        DESTINATION ${dest_dir}
         FILE_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE GROUP_WRITE WORLD_WRITE OWNER_EXECUTE GROUP_EXECUTE
         DIRECTORY_PERMISSIONS OWNER_READ GROUP_READ WORLD_READ OWNER_WRITE GROUP_WRITE WORLD_WRITE OWNER_EXECUTE
                               GROUP_EXECUTE
