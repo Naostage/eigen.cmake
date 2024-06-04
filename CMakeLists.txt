@@ -176,12 +176,20 @@ if(Eigen3_ADDED)
 
   # Force opencv to use our eigen to avoid any problems
   set(EIGEN3_INCLUDE_DIR
-      ${Eigen3_BINARY_DIR}
-      CACHE STRING "eigen include dir"
+      ${Eigen3_BINARY_DIR}/include
+      CACHE STRING "eigen include dir" FORCE
+  )
+  set(EIGEN3_INCLUDE_DIRS
+      ${Eigen3_BINARY_DIR}/include
+      CACHE STRING "eigen include dir" FORCE
   )
   set(EIGEN_INCLUDE_DIR
-      ${Eigen3_BINARY_DIR}
-      CACHE STRING "eigen include dir"
+      ${Eigen3_BINARY_DIR}/include
+      CACHE STRING "eigen include dir" FORCE
+  )
+  set(EIGEN_INCLUDE_DIRS
+      ${Eigen3_BINARY_DIR}/include
+      CACHE STRING "eigen include dir" FORCE
   )
 
   add_library(eigen ALIAS Eigen)
