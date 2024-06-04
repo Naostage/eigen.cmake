@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.0.4"></a>
+## 1.0.4 (2024-06-04)
+
+### Fixed
+
+- 🐛 Correct dest_dir for &#x60;Eigen/Eigen&#x60; ([#9](https://github.com/Naostage/eigen.cmake/issues/9)) [[da55be4](https://github.com/Naostage/eigen.cmake/commit/da55be40e861ebd1702011390f86b3fcee019591)]
+- 🐛 add &#x60;include&#x60; to the &#x60;EIGEN3_INCLUDE_DIR&#x60; global variable. Also add &#x60;DIRS&#x60; variant that might be used ([#8](https://github.com/Naostage/eigen.cmake/issues/8)) [[dd1584a](https://github.com/Naostage/eigen.cmake/commit/dd1584ac2da5492be156a4386cf5d6c2c7427408)]
+
+### Miscellaneous
+
+- 📝 Update Changelog [skip ci] ([#7](https://github.com/Naostage/eigen.cmake/issues/7)) [[488fb72](https://github.com/Naostage/eigen.cmake/commit/488fb72b3927a7a038d28179196b0f17cbcdfc45)]
+
+
 <a name="1.0.3"></a>
 ## 1.0.3 (2024-05-06)
 
